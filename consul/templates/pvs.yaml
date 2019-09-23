@@ -1,0 +1,19 @@
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: {{ .Release.Name }}-pvc
+  labels:
+    app.kubernetes.io/name: {{ include "consul.name" . }}
+  namespace: {{ .Values.namespace }}
+spec:
+  accessModes: 
+    - {{ .Values.storageClass.accessMode | quote }}
+  resources:
+    requests:
+      storage: {{ .Values.storageClass.size | quote }}
+{{- if eq .Values.storageClass.storageClassName "-" }}
+  storageClassName: ""
+{{- else }} 
+  storageClassName: {{ .Values.storageClass.storageClassName | quote }}
+{{- end }}
+

@@ -1,7 +1,7 @@
 # Default values for consul.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
-
+namespace: apps
 replicaCount: 1
 
 image:
@@ -40,6 +40,15 @@ resources: {}
   # requests:
   #  cpu: 100m
   #  memory: 128Mi
+  
+## Persist data to persistent volume
+# persistence:
+#   enabled: true
+storageClass: 
+  storageClassName: hostpath
+  accessMode: ReadWriteMany
+  size: 10Gi
+
 
 nodeSelector: {}
 
