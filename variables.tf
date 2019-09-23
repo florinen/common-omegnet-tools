@@ -4,6 +4,10 @@ variable "namespace" {
     description = "default namespace for all apps"
     default = "apps" 
 }
+variable "label" {
+  default = "consul"
+}
+
 variable    "jenkins_service_port"     {
   default = 8090
   description = "Please do not change this ports."
