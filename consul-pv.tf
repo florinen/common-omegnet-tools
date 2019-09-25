@@ -17,7 +17,7 @@ resource "kubernetes_persistent_volume" "consul_pv_01" {
     storage_class_name               = "hostpath" 
     persistent_volume_source {
             host_path {
-                path = "/nfs/shares/consul"
+                path = "/nfs/kubernetes/consul"
             }  
     }  
   }   
