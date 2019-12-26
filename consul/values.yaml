@@ -14,7 +14,7 @@ fullnameOverride: ""
 
 service:
   type: ClusterIP
-  port: 8094
+  port: 80
 
 ingress:
   enabled: true
@@ -23,12 +23,15 @@ ingress:
     # kubernetes.io/tls-acme: "true"
   path: /
   hosts:
-    - consul.varu.local
+    - consul-new.varu.local
   tls: []
   #  - secretName: chart-example-tls
   #    hosts:
   #      - chart-example.local
-
+volumes:
+  name: datadir
+persistentVolumeClaim:
+  name: consul-claim
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
   # choice for the user. This also increases chances charts run on environments with little
@@ -45,9 +48,27 @@ resources: {}
 # persistence:
 #   enabled: true
 storageClass: 
-  # storageClassName: hostpath
-  # accessMode: ReadWriteMany
-  # size: 10Gi
+ 
+# Set StorageClass as the default StorageClass
+  # Ignored if storageClass.create is false
+  defaultClass: false
+
+  # Set a StorageClass name
+  # Ignored if storageClass.create is false
+  name: nfs-client
+
+  # Allow volume to be expanded dynamically
+  allowVolumeExpansion: true
+
+  # Method used to reclaim an obsoleted volume
+  reclaimPolicy: Delete
+
+  # When set to false your PVs will not be archived by the provisioner upon deletion of the PVC.
+  archiveOnDelete: true
+
+  storageClassName: nfs-client
+  accessMode: ReadWriteMany
+  size: 10Gi
 
  
 nodeSelector: {}

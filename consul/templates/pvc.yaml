@@ -1,7 +1,7 @@
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-  name: {{ include "consul.name" . }}-pvc
+  name: {{ .Values.persistentVolumeClaim.name}}
   labels:
     app.kubernetes.io/name: {{ include "consul.name" . }}
   namespace: {{ .Values.namespace }}
