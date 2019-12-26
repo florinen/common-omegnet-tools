@@ -18,12 +18,12 @@ service:
 
 ingress:
   enabled: true
-  annotations: {}
+  annotations: 
     kubernetes.io/ingress.class: nginx
     # kubernetes.io/tls-acme: "true"
   path: /
   hosts:
-    - consul.omegnet.com
+    - consul.varu.local
   tls: []
   #  - secretName: chart-example-tls
   #    hosts:
@@ -45,11 +45,11 @@ resources: {}
 # persistence:
 #   enabled: true
 storageClass: 
-  storageClassName: hostpath
-  accessMode: ReadWriteMany
-  size: 10Gi
+  # storageClassName: hostpath
+  # accessMode: ReadWriteMany
+  # size: 10Gi
 
-
+ 
 nodeSelector: {}
 
 tolerations: []
