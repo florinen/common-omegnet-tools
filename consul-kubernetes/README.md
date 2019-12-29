@@ -58,6 +58,10 @@ consul keygen
 ```
 GOSSIP_ENCRYPTION_KEY=$(consul keygen)
 ```
+### Create namespace if you need
+```
+kubectl create ns consul
+```
 
 ### Create the Consul Secret and Configmap
 
@@ -70,13 +74,13 @@ kubectl create secret generic consul \
   --from-literal="gossip-encryption-key=${GOSSIP_ENCRYPTION_KEY}" \
   --from-file=ca.pem \
   --from-file=consul.pem \
-  --from-file=consul-key.pem
+  --from-file=consul-key.pem -n consul
 ```
 
 Store the Consul server configuration file in a ConfigMap:
 
 ```
-kubectl create configmap consul --from-file=configs/server.json
+kubectl create configmap consul --from-file=configs/server.json -n consul
 ```
 
 ### Create the Consul Service
@@ -84,17 +88,17 @@ kubectl create configmap consul --from-file=configs/server.json
 Create a headless service to expose each Consul member internally to the cluster:
 
 ```
-kubectl create -f services/consul.yaml
+kubectl create -f consul-svc.yaml
 ```
 
 ### Create the Consul Service Account
 
 ```
-kubectl apply -f serviceaccounts/consul.yaml
+kubectl apply -f consul-sa.yaml
 ```
 
 ```
-kubectl apply -f clusterroles/consul.yaml
+kubectl apply -f consul-cr.yaml
 ```
 
 ### Create the Consul StatefulSet
@@ -102,13 +106,15 @@ kubectl apply -f clusterroles/consul.yaml
 Deploy a three (3) node Consul cluster using a StatefulSet:
 
 ```
-kubectl create -f statefulsets/consul.yaml
+kubectl create -f statefulset.yaml
 ```
-
+### Create the ingress resource
+```
+kubectl create -f ingress.yaml 
 Each Consul member will be created one by one. Verify each member is `Running` before moving to the next step.
 
 ```
-kubectl get pods
+kubectl get pods -n consul
 ```
 ```
 NAME       READY     STATUS    RESTARTS   AGE
@@ -122,7 +128,7 @@ consul-2   1/1       Running   0          20s
 At this point the Consul cluster has been bootstrapped and is ready for operation. To verify things are working correctly, review the logs for one of the cluster members.
 
 ```
-kubectl logs consul-0
+kubectl logs consul-0 -n consul
 ```
 
 The consul CLI can also be used to check the health of the cluster. In a new terminal start a port-forward to the `consul-0` pod.
