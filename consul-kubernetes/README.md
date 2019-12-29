@@ -16,19 +16,6 @@ The following clients must be installed on the machine used to follow this tutor
 * [consul](https://www.consul.io/downloads.html) 1.4.0-rc
 * [cfssl](https://pkg.cfssl.org) and [cfssljson](https://pkg.cfssl.org) 1.2
 
-## Usage
-
-Clone this repo:
-
-```
-git clone https://github.com/kelseyhightower/consul-on-kubernetes.git
-```
-
-Change into the `consul-kubernetes` directory:
-
-```
-cd consul-on-kubernetes
-```
 
 ### Generate TLS Certificates
 
@@ -62,7 +49,7 @@ consul.pem
 
 [Gossip communication](https://www.consul.io/docs/internals/gossip.html) between Consul members will be encrypted using a shared encryption key. Generate and store an encrypt key:
 
-## To gen the key
+## To generate the key
 ```
 k exec -it -n apps consul-new-59f49b9d64-zcgzc -- sh
 consul keygen
