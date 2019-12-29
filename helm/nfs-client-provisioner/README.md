@@ -27,6 +27,10 @@ To install the chart with the release name `my-release`:
 $ helm install --name my-release --set nfs.server=x.x.x.x --set nfs.path=/exported/path stable/nfs-client-provisioner
 ```
 
+```
+helm install --name dynamic-nfs  --set nfs.server=freenas.varu.local --set nfs.path=/mnt/Storage/Kube-data stable/nfs-client-provisioner --namespace kube-system
+```
+
 The command deploys the given storage class in the default configuration. It can be used afterswards to provision persistent volumes. The [configuration](#configuration) section lists the parameters that can be configured during installation.
 
 > **Tip**: List all releases using `helm list`
