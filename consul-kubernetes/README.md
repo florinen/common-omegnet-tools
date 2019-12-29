@@ -94,11 +94,11 @@ kubectl create -f consul-svc.yaml
 ### Create the Consul Service Account
 
 ```
-kubectl apply -f consul-sa.yaml
+kubectl create -f consul-sa.yaml
 ```
 
 ```
-kubectl apply -f consul-cr.yaml
+kubectl create -f consul-cr.yaml
 ```
 
 ### Create the Consul StatefulSet

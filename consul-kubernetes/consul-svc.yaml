@@ -8,7 +8,7 @@ metadata:
 spec:
   clusterIP: None
   ports:
-    - name: http
+    - name: ui-port
       port: 8500
       targetPort: 8500
     - name: https
