@@ -1,0 +1,26 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  labels:
+    app.kubernetes.io/instance: consul
+  annotations:
+    #certmanager.k8s.io/cluster-issuer: letsencrypt-staging
+    #kubernetes.io/tls-acme: “true”
+    #nginx.ingress.kubernetes.io/ssl-redirect: "false"
+    kubernetes.io/ingress.class: nginx
+  name: consul-ingress
+  namespace: consul
+spec:
+  rules:
+  - host: consul-new.varu.local
+    http:
+      paths:
+      - backend:
+          serviceName: consul
+          servicePort: 8500
+        path: /
+   
+  #tls:
+  #- hosts:
+  #  - jenkins.omegnet.com
+  #  secretName: tls-staging-cert
