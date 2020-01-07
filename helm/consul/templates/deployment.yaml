@@ -40,8 +40,8 @@ spec:
 {{ toYaml .Values.resources | indent 12 }}
     {{- with .Values.nodeSelector }}
         volumeMounts:
-        - name: datadir
-          mountPath: /tmp/data
+        - name: data
+          mountPath: /consul/data
       volumes:
       - name: {{ .Values.volumes.name}}
 {{- if .Values.buildMode }}
