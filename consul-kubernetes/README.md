@@ -157,7 +157,7 @@ consul-2  10.32.0.13:8301  alive   server  1.4.0rc1  2         dc1  <all>
 
 ### Accessing the Web UI
 
-The Consul UI does not support any form of authentication out of the box so it should not be exposed. To access the web UI, start a port-forward session to the `consul-0` Pod in a new terminal.
+The Consul UI does not support any form of authentication out of the box so it should not be exposed. To access the web UI if you do not have an ingress, start a port-forward session to the `consul-0` Pod in a new terminal.
 
 ```
 kubectl port-forward consul-0 8500:8500
@@ -165,7 +165,7 @@ kubectl port-forward consul-0 8500:8500
 
 Visit http://127.0.0.1:8500 in your web browser.
 
-![Image of Consul UI](images/consul-ui.png)
+
 
 ## Cleanup
 
