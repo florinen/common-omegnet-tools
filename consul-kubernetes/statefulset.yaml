@@ -1,15 +1,15 @@
 ---
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: consul-claim
-  namespace: consul
-spec:
-  storageClassName: nfs-client
-  accessModes: ["ReadWriteMany"]
-  resources:
-    requests:
-      storage: 5Gi
+# apiVersion: v1
+# kind: PersistentVolumeClaim
+# metadata:
+#   name: consul-claim
+#   namespace: consul
+# spec:
+#   storageClassName: nfs-client
+#   accessModes: ["ReadWriteMany"]
+#   resources:
+#     requests:
+#       storage: 5Gi
 ---
 apiVersion: apps/v1
 kind: StatefulSet
@@ -23,7 +23,7 @@ spec:
       component: server
   serviceName: consul
   podManagementPolicy: "Parallel"
-  replicas: 3
+  replicas: 1
   template:
     metadata:
       labels:
@@ -48,7 +48,7 @@ spec:
         fsGroup: 1000
       containers:
         - name: consul
-          image: "consul:1.4.0-rc1"
+          image: "consul:latest"
           env:
             - name: POD_IP
               valueFrom:
@@ -62,7 +62,7 @@ spec:
           args:
             - "agent"
             - "-advertise=$(POD_IP)"
-            - "-bootstrap-expect=3"
+            - "-bootstrap-expect=1"
             - "-config-file=/etc/consul/config/server.json"
             - "-encrypt=$(GOSSIP_ENCRYPTION_KEY)"
           volumeMounts:
@@ -104,8 +104,14 @@ spec:
             name: consul
         - name: tls
           secret:
-            secretName: consul  
-        - name: data
-          persistentVolumeClaim:
-            claimName: consul-claim
- 
+            secretName: consul         
+  volumeClaimTemplates:
+  - metadata:
+      name:  data 
+      annotations:
+        volume.beta.kubernetes.io/storage-class: "nfs-client" #classname
+    spec:
+      accessModes: [ "ReadWriteMany" ]
+      resources:
+        requests:
+          storage: 1Gi 
