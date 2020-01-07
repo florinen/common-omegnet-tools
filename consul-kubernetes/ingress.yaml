@@ -12,7 +12,7 @@ metadata:
   namespace: consul
 spec:
   rules:
-  - host: consul-new.varu.local
+  - host: consul.varu.local
     http:
       paths:
       - backend:
