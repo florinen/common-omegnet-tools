@@ -1,13 +1,20 @@
 # Default values for consul.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
+global:
+  enabled: true
+
+domain: consul
+
 namespace: apps
 replicaCount: 1
 
 image:
   repository: consul
-  tag: latest
+  tag: 1.5.0
   pullPolicy: IfNotPresent
+
+datacenter: dc1
 
 nameOverride: ""
 fullnameOverride: ""
@@ -29,7 +36,7 @@ ingress:
   #    hosts:
   #      - chart-example.local
 volumes:
-  name: datadir
+  name: data
 persistentVolumeClaim:
   name: consul-claim
 resources: {}
@@ -70,9 +77,30 @@ storageClass:
   accessMode: ReadWriteMany
   size: 10Gi
 
- 
+client:
+  enabled: "-"
+  image: null
+  join: null
+
+connectInject:
+  enabled: false
+centralConfig:
+  enabled: true
+  defaultProtocol: null
+  # proxyDefaults: |
+  #     {}
+
 nodeSelector: {}
 
 tolerations: []
 
 affinity: {}
+# |
+#   podAntiAffinity:
+#     requiredDuringSchedulingIgnoredDuringExecution:
+#       - labelSelector:
+#           matchLabels:
+#             app: {{ template "consul.name" . }}
+#             release: "{{ .Release.Name }}"
+#             component: server
+#       topologyKey: kubernetes.io/hostname
