@@ -111,6 +111,8 @@ kubectl create -f statefulset.yaml
 ### Create the ingress resource
 ```
 kubectl create -f ingress.yaml 
+```
+
 Each Consul member will be created one by one. Verify each member is `Running` before moving to the next step.
 
 ```
