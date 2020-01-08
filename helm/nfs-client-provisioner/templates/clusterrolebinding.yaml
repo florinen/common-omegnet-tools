@@ -11,7 +11,7 @@ metadata:
 subjects:
   - kind: ServiceAccount
     name: {{ template "nfs-client-provisioner.serviceAccountName" . }}
-    namespace: {{ .Release.Namespace }}
+    namespace: {{ .Values.namespace }}
 roleRef:
   kind: ClusterRole
   name: {{ template "nfs-client-provisioner.fullname" . }}-runner

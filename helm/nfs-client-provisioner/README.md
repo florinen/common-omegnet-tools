@@ -22,25 +22,30 @@ This charts installs custom [storage class](https://kubernetes.io/docs/concepts/
 ## Installing the Chart
 
 To install the chart with the release name `my-release`:
-
-```console
-$ helm install --name my-release --set nfs.server=x.x.x.x --set nfs.path=/exported/path stable/nfs-client-provisioner
 ```
-
+$ helm install --name my-release --set nfs.server=x.x.x.x --set nfs.path=/exported/path stable/nfs-client-provisioner --namespace kube-system
 ```
-helm install --name dynamic-nfs  --set nfs.server=freenas.varu.local --set nfs.path=/mnt/Storage/Kube-data stable/nfs-client-provisioner --namespace kube-system
-```
-
 The command deploys the given storage class in the default configuration. It can be used afterswards to provision persistent volumes. The [configuration](#configuration) section lists the parameters that can be configured during installation.
-
-> **Tip**: List all releases using `helm list`
 
 ## Uninstalling the Chart
 
 To uninstall/delete the `my-release` deployment:
 
-```console
-$ helm delete my-release
+```
+$ helm del --purge my-release
+```
+
+## My custom Chart
+```
+$ cd common-omegnet-tools/helm
+$ helm install --name dynamic ./nfs-client-provisioner
+```
+
+> **Tip**: List all releases using `helm list`
+
+To delete deployment
+```
+$ helm del --purge dynamic
 ```
 
 The command removes all the Kubernetes components associated with the chart and deletes the release.

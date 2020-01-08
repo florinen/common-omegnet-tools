@@ -8,6 +8,7 @@ metadata:
     chart: {{ .Chart.Name }}-{{ .Chart.Version }}
     heritage: {{ .Release.Service }}
     release: {{ .Release.Name }}
+  namespace: {{ .Values.namespace }}
 spec:
   privileged: false
   allowPrivilegeEscalation: false

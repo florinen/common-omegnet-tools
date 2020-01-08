@@ -8,6 +8,7 @@ metadata:
     heritage: {{ .Release.Service }}
     release: {{ .Release.Name }}
   name: leader-locking-{{ template "nfs-client-provisioner.fullname" . }}
+  namespace: {{ .Values.namespace }}
 rules:
   - apiGroups: [""]
     resources: ["endpoints"]
