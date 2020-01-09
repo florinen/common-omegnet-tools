@@ -4,7 +4,9 @@ rm ca-key.pem ca.csr ca.pem consul-key.pem consul.csr consul.pem
 kubectl delete statefulset consul -n consul
 kubectl delete pvc data-consul-0 -n consul
 kubectl delete svc consul -n consul
+kubectl delete sa consul -n consul
 kubectl delete jobs consul-join -n consul
 kubectl delete secrets consul -n consul
 kubectl delete configmaps consul -n consul
 kubectl delete clusterrole consul
+

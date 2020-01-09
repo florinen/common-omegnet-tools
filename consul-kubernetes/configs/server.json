@@ -13,7 +13,7 @@
   },
   "rejoin_after_leave": true,
   "retry_join": [
-    "provider=k8s label_selector=\"app=consul,component=server\""
+    "provider=k8s namespace=consul label_selector=\"app=consul,component=server\"" 
   ],
   "server": true,
   "telemetry": {
