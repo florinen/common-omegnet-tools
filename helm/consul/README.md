@@ -24,22 +24,27 @@ $ helm install --name my-release stable/consul
 # Namespace must exist
 ```
 cd /helm/charts
-$ helm install --name consul  stable/consul --namespace consul
+$ helm install --name consul  ./consul --namespace consul
 ```
 
 ## Without installing
 ```
-$ helm install --name consul --debug --dry-run stable/consul
+$ helm install --name consul --debug --dry-run ./consul
 ```
 
 ## Upgrading chart, after changing values in values.yaml
 ```
-$ helm upgrade consul stable/consul
+$ helm upgrade consul ./consul
 ```
 ## Delete the Chart
 ```
 $ helm del --purge consul 
 ```
+Storage pvc will not get deleted, to delete storage persisten volume claim, run:
+```
+for each in $(kubectl get pvc --no-headers=true -n consul  | awk '{print $1}'); do kubectl delete pvc $each -n consul; done
+```
+
 ## Configuration
 
 The following table lists the configurable parameters of the consul chart and their default values.
