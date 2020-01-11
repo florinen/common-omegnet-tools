@@ -38,7 +38,7 @@ $ helm del --purge my-release
 ## My custom Chart
 ```
 $ cd common-omegnet-tools/helm
-$ helm install --name dynamic ./nfs-client-provisioner
+$ helm install --name dynamic ./nfs-client-provisioner --namespace kube-system
 ```
 
 > **Tip**: List all releases using `helm list`
