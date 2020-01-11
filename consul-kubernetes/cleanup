@@ -9,4 +9,5 @@ kubectl delete jobs consul-join -n consul
 kubectl delete secrets consul -n consul
 kubectl delete configmaps consul -n consul
 kubectl delete clusterrole consul
+kubectl delete clusterrolebinding consul -n consul
 
