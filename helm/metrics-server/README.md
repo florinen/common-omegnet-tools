@@ -4,7 +4,8 @@
 
 ## My Custom Chart
 ```
-helm install --name metrics-server ./metrics-server --namespace kube-system
+cd /common-omegnet-tools/helm
+helm install --name metrics-server ./metrics-server --namespace monitoring
 ```
 To delete chart.
 ```
