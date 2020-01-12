@@ -126,7 +126,8 @@ alertmanager:
     #     hosts:
     #       - alertmanager.domain.com
 
-  ## Alertmanager Deployment Strategy type
+### Alertmanager Deployment Strategy type  ###
+
   # strategy:
   #   type: Recreate
 
@@ -220,6 +221,8 @@ alertmanager:
     ## Useful if you deploy multiple releases within the same namespace
     ##
     ## prometheus.io/probe: alertmanager-teamA
+
+###  Pod Security Policy  ###
 
   ## Specify if a Pod Security Policy for node-exporter must be created
   ## Ref: https://kubernetes.io/docs/concepts/policy/pod-security-policy/
@@ -337,6 +340,8 @@ configmapReload:
   ##
   resources: {}
 
+###  Kube-State-Metrics  ##
+
 kubeStateMetrics:
   ## If false, kube-state-metrics will not be installed
   ##
@@ -440,6 +445,8 @@ kubeStateMetrics:
     loadBalancerSourceRanges: []
     servicePort: 80
     type: ClusterIP
+
+### NodeExporter  ###
 
 nodeExporter:
   ## If false, node-exporter will not be installed
@@ -572,6 +579,8 @@ nodeExporter:
     loadBalancerSourceRanges: []
     servicePort: 9100
     type: ClusterIP
+
+### Prometheus Server  ###
 
 server:
   ## Prometheus server container name
@@ -887,7 +896,8 @@ server:
     #   cpu: 500m
     #   memory: 512Mi
 
-  ## Vertical Pod Autoscaler config
+  ## Vertical Pod Autoscaler config ##
+  
   ## Ref: https://github.com/kubernetes/autoscaler/tree/master/vertical-pod-autoscaler
   verticalAutoscaler:
     ## If true a VPA object will be created for the controller (either StatefulSet or Deployemnt, based on above configs)
