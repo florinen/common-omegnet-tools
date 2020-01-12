@@ -92,12 +92,12 @@ alertmanager:
   ingress:
     ## If true, alertmanager Ingress will be created
     ##
-    enabled: false
+    enabled: true
 
     ## alertmanager Ingress annotations
     ##
-    annotations: {}
-    #   kubernetes.io/ingress.class: nginx
+    annotations: 
+      kubernetes.io/ingress.class: nginx
     #   kubernetes.io/tls-acme: 'true'
 
     ## alertmanager Ingress additional labels
@@ -107,8 +107,8 @@ alertmanager:
     ## alertmanager Ingress hostnames with optional path
     ## Must be provided if Ingress is enabled
     ##
-    hosts: []
-    #   - alertmanager.domain.com
+    hosts: 
+      - alertmanager.varu.local
     #   - domain.com/alertmanager
 
     ## Extra paths to prepend to every host configuration. This is useful when working with annotation based services.
@@ -693,12 +693,12 @@ server:
   ingress:
     ## If true, Prometheus server Ingress will be created
     ##
-    enabled: false
+    enabled: true
 
     ## Prometheus server Ingress annotations
     ##
-    annotations: {}
-    #   kubernetes.io/ingress.class: nginx
+    annotations: 
+      kubernetes.io/ingress.class: nginx
     #   kubernetes.io/tls-acme: 'true'
 
     ## Prometheus server Ingress additional labels
@@ -708,8 +708,8 @@ server:
     ## Prometheus server Ingress hostnames with optional path
     ## Must be provided if Ingress is enabled
     ##
-    hosts: []
-    #   - prometheus.domain.com
+    hosts: 
+      - prometheus.varu.local
     #   - domain.com/prometheus
 
     ## Extra paths to prepend to every host configuration. This is useful when working with annotation based services.
@@ -968,19 +968,19 @@ pushgateway:
   ingress:
     ## If true, pushgateway Ingress will be created
     ##
-    enabled: false
+    enabled: true
 
     ## pushgateway Ingress annotations
     ##
-    annotations: {}
-    #   kubernetes.io/ingress.class: nginx
+    annotations: 
+      kubernetes.io/ingress.class: nginx
     #   kubernetes.io/tls-acme: 'true'
 
     ## pushgateway Ingress hostnames with optional path
     ## Must be provided if Ingress is enabled
     ##
-    hosts: []
-    #   - pushgateway.domain.com
+    hosts: 
+      - pushgateway.varu.local
     #   - domain.com/pushgateway
 
     ## Extra paths to prepend to every host configuration. This is useful when working with annotation based services.
@@ -1080,7 +1080,7 @@ pushgateway:
     ## If true, pushgateway will create/use a Persistent Volume Claim
     ## If false, use emptyDir
     ##
-    enabled: false
+    enabled: true
 
     ## pushgateway data Persistent Volume access modes
     ## Must match those of existing PV or dynamic provisioner
@@ -1091,7 +1091,8 @@ pushgateway:
 
     ## pushgateway data Persistent Volume Claim annotations
     ##
-    annotations: {}
+    annotations: 
+      volume.beta.kubernetes.io/storage-class: "nfs-client"
 
     ## pushgateway data Persistent Volume existing claim name
     ## Requires pushgateway.persistentVolume.enabled: true
