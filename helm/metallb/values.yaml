@@ -23,7 +23,7 @@ configInline:
     - name: my-ip-space
       protocol: layer2
       addresses:
-      - 10.10.45.240-10.10.45.248
+      - 10.10.45.36-10.10.45.40
 rbac:
   # create specifies whether to install and use RBAC rules.
   create: true

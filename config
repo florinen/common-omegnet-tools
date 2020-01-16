@@ -1,0 +1,2 @@
+deployment_environment = "prod-env"
+deployment_name = "consul_prod"

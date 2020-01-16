@@ -31,3 +31,6 @@ variable    "consul_service_port"       {
   description = "Please do not change this ports."
 }
 
+variable "consul_name" {
+  default = "consul"
+}
