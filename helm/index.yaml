@@ -1,0 +1,27 @@
+apiVersion: v1
+entries:
+  metallb:
+  - apiVersion: v1
+    appVersion: 0.8.1
+    created: "2020-01-16T20:34:27.262966-06:00"
+    description: MetalLB is a load-balancer implementation for bare metal Kubernetes
+      clusters
+    digest: c9e31c07dee275b533238c4ff81298390b60cab9ea854ceeced10ad23aca6fa9
+    home: https://metallb.universe.tf
+    icon: https://metallb.universe.tf/images/logo.png
+    keywords:
+    - load-balancer
+    - balancer
+    - lb
+    - bgp
+    - arp
+    - vrrp
+    - vip
+    maintainers:
+    - email: dave@natulte.net
+      name: danderson
+    name: metallb
+    urls:
+    - metallb-0.12.0.tgz
+    version: 0.12.0
+generated: "2020-01-16T20:34:27.2554083-06:00"
