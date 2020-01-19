@@ -2,8 +2,8 @@
 data "helm_repository" "stable" {
   depends_on = ["null_resource.helminit"]
   name       = "stable"
-  #url  = "https://kubernetes-charts.storage.googleapis.com"
-  url        = "https://fuchicorp.github.io/helm_charts"
+  #url  = "${var.public_url}"
+  url        = "${var.private_url}"
 }
 
 resource "helm_release" "metallb" {
@@ -12,7 +12,7 @@ resource "helm_release" "metallb" {
   namespace  = "metallb-system"
   force_update = true
   repository = data.helm_repository.stable.metadata[0].name
-  chart      = "metallb"
+  chart      = "${path.module}/${var.metallb_chart}"
   wait       = false
   
   # values = [
@@ -23,3 +23,12 @@ resource "helm_release" "metallb" {
   #     value = 
   #   }
 }
+# resource "helm_release" "consul" {
+#     name      = "${var.consul_name}"
+#     namespace = "${var.namespace}"
+#     chart     = "${path.module}/consul"
+# }
+# set {
+#     name = "consul-port"
+#     value = "${var.consul_service_port}"
+#   }

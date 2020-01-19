@@ -1,14 +1,14 @@
 provider "helm" {
   version         = "~> 0.10"
   tiller_image    = "gcr.io/kubernetes-helm/tiller:${var.tiller_version}"
-  install_tiller  = true
+  install_tiller  = "${var.install_tiller}"
   service_account = "tiller"
   namespace       = "kube-system"
 }
 resource "kubernetes_service_account" "tiller" {
   
   metadata {
-    name      = "tiller"
+    name      = "${var.tiller_name}"
     namespace = "kube-system"
   }
   automount_service_account_token = true
@@ -17,7 +17,7 @@ resource "kubernetes_cluster_role_binding" "tiller" {
   depends_on = ["kubernetes_service_account.tiller"]
 
   metadata {
-    name = "tiller"
+    name = "${var.tiller_name}"
   }
   role_ref {
     api_group = "rbac.authorization.k8s.io"
@@ -31,8 +31,8 @@ resource "kubernetes_cluster_role_binding" "tiller" {
   }
   subject {
     kind      = "ServiceAccount"
-    name      = "tiller"
-    namespace = "kube-system"
+    name      = "${var.tiller_name}"
+    namespace = "${var.tiller_namespace}"
   }
   subject {
     kind      = "Group"

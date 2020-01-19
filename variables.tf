@@ -4,12 +4,30 @@
 variable "provider_name" {}
 variable "deployment_environment" {}
 variable "deployment_name" {}
+variable "tiller_name" {}
 
 
 ## Deployments 
 
+variable "private_url" {}
+variable "public_url" {}
+
+
+
 # Tiller
+variable "tiller_namespace" {}
 variable "tiller_version" {}
+variable "install_tiller" {}
+variable "tiller_name" {}
+
+## MetalLB
+variable "metallb_namespace" {}
+variable "metallb_name" {}
+variable "metallb_chart" {}
+
+
+
+
 
 variable "namespace" {
     description = "default namespace for all apps"
