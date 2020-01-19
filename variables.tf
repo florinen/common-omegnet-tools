@@ -1,5 +1,16 @@
 
 
+### Backend use ###
+variable "provider_name" {}
+variable "deployment_environment" {}
+variable "deployment_name" {}
+
+
+## Deployments 
+
+# Tiller
+variable "tiller_version" {}
+
 variable "namespace" {
     description = "default namespace for all apps"
     default = "apps" 

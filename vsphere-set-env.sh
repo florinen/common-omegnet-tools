@@ -20,6 +20,7 @@ ADDRESS=$(sed -nr 's/^address\s*=\s*"([^"]*)".*$/\1/p'                       "$P
 SCHEME=$(sed -nr 's/^scheme\s*=\s*"([^"]*)".*$/\1/p'                         "$PWD/common_configuration.tfvars")
 ENVIRONMENT=$(sed -nr 's/^deployment_environment\s*=\s*"([^"]*)".*$/\1/p'    "$DATAFILE")
 DEPLOYMENT=$(sed -nr 's/^deployment_name\s*=\s*"([^"]*)".*$/\1/p'            "$DATAFILE")
+PROJECT=$(sed -nr 's/^provider_name\s*=\s*"([^"]*)".*$/\1/p'                 "$DATAFILE")
 #CREDENTIALS=$(sed -nr 's/^credentials\s*=\s*"([^"]*)".*$/\1/p'               "$DATAFILE")
 
 
@@ -40,6 +41,12 @@ if [ -z "$SCHEME" ]
 then
   echo "setenv: 'scheme' variable not set in configuration file."
   return 1
+fi
+
+if [ -z "$PROJECT" ]
+then
+    echo "setenv: 'provider_name' variable not set in configuration file."
+    return 1
 fi
 
 if [ -z "$ENVIRONMENT" ]
@@ -65,7 +72,7 @@ terraform {
   backend "${BACKEND}" {
     address  = "${ADDRESS}"
     scheme   = "${SCHEME}"
-    path     = "${ENVIRONMENT}/${DEPLOYMENT}"
+    path     = "${PROJECT}/${ENVIRONMENT}/${DEPLOYMENT}"
   }
 }
 EOF
