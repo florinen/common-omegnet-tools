@@ -4,7 +4,6 @@
 variable "provider_name" {}
 variable "deployment_environment" {}
 variable "deployment_name" {}
-variable "tiller_name" {}
 
 
 ## Deployments 
@@ -24,6 +23,24 @@ variable "tiller_name" {}
 variable "metallb_namespace" {}
 variable "metallb_name" {}
 variable "metallb_chart" {}
+
+## Ingress Controller
+
+variable "ingress_namespace" {}
+variable "ingress_name" {}
+variable "ingress_chart" {}
+variable "ingress_version" {}
+
+## NFS Clien Provisioner
+variable "nfs_clinet_name" {}
+variable "nfs_client_namespace" {}
+variable "nfs_client_chart" {}
+
+## Metric Server
+variable "metrics_server_name" {}
+variable "metrics_server_namespace" {}
+variable "metrics_server_chart" {}
+
 
 
 
