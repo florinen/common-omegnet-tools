@@ -4,9 +4,16 @@
 variable "provider_name" {}
 variable "deployment_environment" {}
 variable "deployment_name" {}
+variable "state_file_name" {}
 
 
 ## Deployments 
+
+variable "vsphere_cluster" {}
+variable "local_domain" {}
+variable "envinroment" {}
+
+
 
 variable "private_url" {}
 variable "public_url" {}
@@ -18,6 +25,15 @@ variable "tiller_namespace" {}
 variable "tiller_version" {}
 variable "install_tiller" {}
 variable "tiller_name" {}
+variable "tiller_service_account_name" {}
+
+
+# Helm_v3
+variable "helm_service_account_name" {}
+variable "helm_namespace" {}
+variable "helm_version" {}
+
+
 
 ## MetalLB
 variable "metallb_namespace" {}
