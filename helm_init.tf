@@ -1,94 +1,71 @@
+
+## Untill terroform supports Helm_v3 this section will be disabled. Terraform can not deploy helm charts v3 yet!!
+## To use terraform with Helm_v3 just uncomment below blocks
 # provider "helm" {
 #   version         = "~> 0.10"
-#   tiller_image    = "gcr.io/kubernetes-helm/tiller:${var.tiller_version}"
-#   install_tiller  = "${var.install_tiller}"
-#   service_account = "tiller"
-#   namespace       = "${var.tiller_namespace}"
+#   service_account = "${var.helm_service_account_name}"
+#   namespace       = "${var.helm_namespace}"
 # }
-# resource "kubernetes_service_account" "tiller" {
-  
-#   metadata {
-#     name      = "${var.tiller_name}"
-#     namespace = "${var.tiller_namespace}"
-#   }
-#   automount_service_account_token = true
-# }
-# resource "kubernetes_cluster_role_binding" "tiller" {
-#   depends_on = ["kubernetes_service_account.tiller"]
 
-#   metadata {
-#     name = "${var.tiller_name}"
+# resource "null_resource" "helm" {
+#   triggers = {
+#     helm-config = "${sha1(file("${path.module}/templates/helm-rbac.yaml"))}"
 #   }
-#   role_ref {
-#     api_group = "rbac.authorization.k8s.io"
-#     kind      = "ClusterRole"
-#     name      = "cluster-admin"
-#   }
-#   subject {
-#     kind      = "User"
-#     name      = "admin"
-#     api_group = "rbac.authorization.k8s.io"
-#   }
-#   subject {
-#     kind      = "ServiceAccount"
-#     name      = "${var.tiller_name}"
-#     namespace = "${var.tiller_namespace}"
-#   }
-#   subject {
-#     kind      = "Group"
-#     name      = "system:masters"
-#     api_group = "rbac.authorization.k8s.io"
-#   }
-# }
-# resource "null_resource" "helminit" {
-#   depends_on = ["kubernetes_cluster_role_binding.tiller"]
+
 #   provisioner "local-exec" {
-#     command = "helm init --service-account=tiller"
+#     command = <<EOF
+#         kubectl create -f templates/helm-rbac.yaml 
+#     EOF
 #   }
 # }
 # resource "null_resource" "helm_delete" {
 #   provisioner "local-exec" {
 #     when    = "destroy"
-#     command = "kubectl delete deployments -n ${var.tiller_namespace} tiller-deploy"
+#     command = <<EOF
+#         kubectl delete -f  templates/helm-rbac.yaml
+#     EOF
 #   }
 # }
 
-resource "kubernetes_service_account" "tiller" {
-  metadata {
-    name = "${var.tiller_name}"
-    namespace = "${var.tiller_namespace}"
-  }
-  automount_service_account_token = true
+## Terraform Helm_v2 charts ##
+
+provider "helm" {
+  version         = "~> 0.10"
+  tiller_image    = "gcr.io/kubernetes-helm/tiller:${var.tiller_version}"
+  service_account = "${var.tiller_service_account_name}"
+  install_tiller  = "${var.install_tiller}"
+  namespace       = "${var.tiller_namespace}"
 }
-resource "kubernetes_cluster_role_binding" "tiller" {
-  metadata {
-        name = "${var.tiller_name}"
-  }
-  subject {
-    api_group = "rbac.authorization.k8s.io"
-    kind      = "User"
-    name      = "system:serviceaccount:${var.tiller_namespace}:${var.tiller_name}"
+
+resource "null_resource" "helm" {
+  triggers = {
+    helm-config = "${sha1(file("${path.module}/templates/helm-rbac.yaml"))}"
   }
 
-  role_ref {
-    api_group = "rbac.authorization.k8s.io"
-    kind  = "ClusterRole"
-    name = "cluster-admin"
-  }
-  depends_on = ["kubernetes_service_account.tiller"]
-}
-resource "null_resource" "helminit" {
   provisioner "local-exec" {
-    command = "helm init --service-account=${var.tiller_name}"
+    command = <<EOF
+        kubectl create -f templates/helm-tiller.yaml
+        helm init --service-account=${var.tiller_service_account_name}
+    EOF
   }
-  depends_on = ["kubernetes_cluster_role_binding.tiller"]
 }
 resource "null_resource" "helm_delete" {
   provisioner "local-exec" {
     when    = "destroy"
-    command = "kubectl delete deployments -n ${var.tiller_namespace} tiller-deploy"
+    command = <<EOF
+        kubectl delete -f  templates/helm-rbac.yaml
+        kubectl delete deployments -n ${var.tiller_namespace} tiller-deploy
+    EOF
   }
 }
+
+
+
+
+
+
+
+
 
 
 

@@ -1,0 +1,111 @@
+# Have full privileges except creating namespaces
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: helm-sa
+  namespace: kube-system
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: helm-cr
+rules:
+  - apiGroups: [""]
+    resources: ["nodes/proxy"]
+    verbs: ["create", "get"]
+  - apiGroups: [""]
+    resources: ["pods"]
+    verbs: ["get", "list", "watch", "create", "delete"]
+  - apiGroups: ["autoscaling"]
+    resources: ["*"]
+    verbs: ["*"]
+  - apiGroups: ["", "batch", "extensions", "apps"]
+    resources:
+    - bindings
+    - componentstatuses
+    - endpoints
+    - events
+    - limitranges
+    - nodes 
+    - persistentvolumeclaims
+    - persistentvolumes
+    - pods
+    - podtemplates
+    - replicationcontrollers
+    - resourcequotas
+    - secrets
+    - serviceaccounts
+    - services
+    - mutatingwebhookconfigurations
+    - validatingwebhookconfigurations
+    - customresourcedefinitions
+    - apiservices
+    - controllerrevisions
+    - daemonsets
+    - deployments
+    - replicasets
+    - statefulsets
+    - tokenreviews
+    - localsubjectaccessreviews
+    - selfsubjectaccessreviews
+    - selfsubjectrulesreviews
+    - subjectaccessreviews
+    - horizontalpodautoscalers
+    - cronjobs
+    - jobs
+    - certificatesigningrequests
+    - events
+    - daemonsets
+    - deployments
+    - ingresses
+    - networkpolicies
+    - podsecuritypolicies
+    - replicasets
+    - networkpolicies
+    - poddisruptionbudgets
+    - podsecuritypolicies
+    - clusterrolebindings
+    - clusterroles
+    - rolebindings
+    - roles
+    - storageclasses
+    - volumeattachments
+    verbs: ["*"]
+  - apiGroups: ["", "extensions", "apps"]
+    resources: ["configmaps"]
+    verbs: ["*"]
+  - apiGroups: ["policy"]
+    resources: ["poddisruptionbudgets"]
+    verbs: ["*"]
+  - apiGroups: ["*"]
+    resources: ["namespaces"]
+    verbs: ["list", "get", "watch"]
+---
+apiVersion: rbac.authorization.k8s.io/v1beta1
+kind: ClusterRoleBinding
+metadata:
+  name: helm-crb
+  annotations:
+    rbac.authorization.kubernetes.io/autoupdate: "true"
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: helm-cr
+subjects:
+  - kind: ServiceAccount
+    name: helm-sa
+    namespace: kube-system
+---
+#RBAC Config for Tiller to have cluster admin rights
+apiVersion: rbac.authorization.k8s.io/v1beta1
+kind: ClusterRoleBinding
+metadata:
+  name: helm-full
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cluster-admin
+subjects:
+  - kind: ServiceAccount
+    name: helm-sa
+    namespace: kube-system
