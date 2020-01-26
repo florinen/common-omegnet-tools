@@ -21,6 +21,7 @@ SCHEME=$(sed -nr 's/^scheme\s*=\s*"([^"]*)".*$/\1/p'                         "$P
 ENVIRONMENT=$(sed -nr 's/^deployment_environment\s*=\s*"([^"]*)".*$/\1/p'    "$DATAFILE")
 DEPLOYMENT=$(sed -nr 's/^deployment_name\s*=\s*"([^"]*)".*$/\1/p'            "$DATAFILE")
 PROJECT=$(sed -nr 's/^provider_name\s*=\s*"([^"]*)".*$/\1/p'                 "$DATAFILE")
+STATEFILE=$(sed -nr 's/^state_file_name\s*=\s*"([^"]*)".*$/\1/p'             "$DATAFILE")
 #CREDENTIALS=$(sed -nr 's/^credentials\s*=\s*"([^"]*)".*$/\1/p'               "$DATAFILE")
 
 
@@ -61,6 +62,12 @@ then
     return 1
 fi
 
+if [ -z "$STATEFILE" ]
+then
+    echo "setenv: 'state_file_name' variable not set in configuration file."
+    return 1
+fi
+
 # if [ -z "$CREDENTIALS" ]
 # then
 #     echo "setenv: 'credentials' file not set in configuration file."
@@ -72,7 +79,7 @@ terraform {
   backend "${BACKEND}" {
     address  = "${ADDRESS}"
     scheme   = "${SCHEME}"
-    path     = "${PROJECT}/${ENVIRONMENT}/${DEPLOYMENT}"
+    path     = "${PROJECT}/${ENVIRONMENT}/${DEPLOYMENT}/${STATEFILE}"
   }
 }
 EOF
