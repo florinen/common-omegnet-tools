@@ -39,7 +39,7 @@ provider "helm" {
 
 resource "null_resource" "helm" {
   triggers = {
-    helm-config = "${sha1(file("${path.module}/templates/helm-rbac.yaml"))}"
+    helm-config = "${sha1(file("${path.module}/templates/helm-tiller.yaml"))}"
   }
 
   provisioner "local-exec" {
@@ -53,8 +53,9 @@ resource "null_resource" "helm_delete" {
   provisioner "local-exec" {
     when    = "destroy"
     command = <<EOF
-        kubectl delete -f  templates/helm-rbac.yaml
+        kubectl delete -f  templates/helm-tiller.yaml
         kubectl delete deployments -n ${var.tiller_namespace} tiller-deploy
+        kubectl delete svc -n ${var.tiller_namespace} tiller-deploy
     EOF
   }
 }
