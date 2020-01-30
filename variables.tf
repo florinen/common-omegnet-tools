@@ -57,6 +57,14 @@ variable "metrics_server_name" {}
 variable "metrics_server_namespace" {}
 variable "metrics_server_chart" {}
 
+## Prometheus
+variable "prometheus_name" {}
+variable "prometheus_namespace" {}
+variable "prometheus_chart" {}
+
+
+
+
 
 
 

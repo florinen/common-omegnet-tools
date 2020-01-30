@@ -56,3 +56,13 @@ resource "helm_release" "metrics_server" {
     wait         = false
     #version     = "${}"
 }
+resource "helm_release" "prometheus" {
+    depends_on = ["null_resource.helm_delete","data.helm_repository.stable"]
+    name         = "${var.prometheus_name}"
+    namespace    = "${var.prometheus_namespace}"
+    force_update = true
+    repository   = data.helm_repository.stable.name
+    chart        = "stable/${var.prometheus_chart}"
+    wait         = false
+    #version     = "${}"
+}
