@@ -5,21 +5,14 @@ variable "provider_name" {}
 variable "deployment_environment" {}
 variable "deployment_name" {}
 variable "state_file_name" {}
+variable "deployment" {}
+variable "state_file" {}
+
 
 # S3
 variable "backend" {}
 variable "bucket" {}
 variable "region" {}
-
-
-
-
-## Deployments 
-
-variable "vsphere_cluster" {}
-variable "local_domain" {}
-variable "envinroment" {}
-
 
 
 variable "private_url" {}
@@ -58,16 +51,6 @@ variable "ingress_version" {}
 variable "nfs_clinet_name" {}
 variable "nfs_client_namespace" {}
 variable "nfs_client_chart" {}
-
-## Metric Server
-variable "metrics_server_name" {}
-variable "metrics_server_namespace" {}
-variable "metrics_server_chart" {}
-
-## Prometheus
-variable "prometheus_name" {}
-variable "prometheus_namespace" {}
-variable "prometheus_chart" {}
 
 ## Consul
 variable "consul_name" {}

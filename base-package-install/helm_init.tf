@@ -39,7 +39,7 @@ provider "helm" {
 
 resource "null_resource" "helm" {
   triggers = {
-    helm-config = "${sha1(file("${path.module}/templates/helm-tiller.yaml"))}"
+    helm-config = "${sha1(file("./templates/helm-tiller.yaml"))}"
   }
 
   provisioner "local-exec" {
