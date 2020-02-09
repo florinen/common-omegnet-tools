@@ -3,7 +3,7 @@ provider "kubernetes" {
 }
 
 provider "helm" {
-  version = "~> 1.0"
+  version = "~> 0.10"
 }
 
 provider "null" {
