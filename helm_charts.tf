@@ -1,53 +1,12 @@
 
 data "helm_repository" "stable" {
-    name = "stable"
-    url  = "${var.private_url}"
-    #url  = "${var.public_url}"
+  name = "stable"
+  url  = "${var.private_url}"
+  #url  = "${var.public_url}"
 }
 
-resource "helm_release" "metallb" {
-    depends_on   = ["null_resource.helm_delete", "data.helm_repository.stable"]
-    name         = "${var.metallb_name}"
-    namespace    = "${var.metallb_namespace}"
-    force_update = true
-    repository   = data.helm_repository.stable.metadata[0].name
-    chart        = "stable/${var.metallb_chart}"
-    wait         = false
-}
-# values = [
-#   "${file("configInline.yaml")}"
-# ]
-# set {
-#     name = "configInline"
-#     value = 
-#   }
-
-resource "helm_release" "ingress_controller" {
-    depends_on   = ["null_resource.helm_delete", "data.helm_repository.stable"]
-    name         = "${var.ingress_name}"
-    namespace    = "${var.ingress_namespace}"
-    force_update = true
-    repository   = data.helm_repository.stable.name
-    chart        = "stable/${var.ingress_chart}"
-    wait         = false
-    #version   = "${var.ingress_version}"
-}
-# set {
-#     name = "consul-port"
-#     value = "${var.consul_service_port}"
-# }  
-resource "helm_release" "nfs_client_provisioner" {
-    depends_on   = ["null_resource.helm_delete", "data.helm_repository.stable"]
-    name         = "${var.nfs_clinet_name}"
-    namespace    = "${var.nfs_client_namespace}"
-    force_update = true
-    repository   = data.helm_repository.stable.name
-    chart        = "stable/${var.nfs_client_chart}"
-    wait         = false
-    #version     = "${}"
-}
 resource "helm_release" "metrics_server" {
-    depends_on = ["null_resource.helm_delete","data.helm_repository.stable"]
+    depends_on   = ["null_resource.helm_destroy","data.helm_repository.stable"]
     name         = "${var.metrics_server_name}"
     namespace    = "${var.metrics_server_namespace}"
     force_update = true
@@ -55,9 +14,10 @@ resource "helm_release" "metrics_server" {
     chart        = "stable/${var.metrics_server_chart}"
     wait         = false
     #version     = "${}"
+  
 }
 resource "helm_release" "prometheus" {
-    depends_on = ["null_resource.helm_delete","data.helm_repository.stable"]
+    depends_on   = ["null_resource.helm_destroy","data.helm_repository.stable"]
     name         = "${var.prometheus_name}"
     namespace    = "${var.prometheus_namespace}"
     force_update = true
@@ -65,4 +25,29 @@ resource "helm_release" "prometheus" {
     chart        = "stable/${var.prometheus_chart}"
     wait         = false
     #version     = "${}"
+
 }
+resource "null_resource" "helm_destroy" {
+    provisioner "local-exec" {
+    when = "destroy"
+
+    command = <<EOF
+      helm delete --purge ${var.metrics_server_name} ${var.prometheus_name} --tiller-namespace ${var.tiller_namespace}
+      true
+    EOF
+  }
+}
+
+## Delete all Helm Charts ##
+
+# resource "null_resource" "helm_destroy" {
+#     provisioner "local-exec" {
+#     when = "destroy"
+
+#     command = <<EOF
+#       for i in $(helm list | awk '{print $1}' |grep -v NAME); do helm delete --purge $i --tiller-namespace ${var.tiller_namespace}
+#       true
+#     EOF
+#   }
+# }
+
