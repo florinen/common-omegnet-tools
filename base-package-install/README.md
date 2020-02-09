@@ -13,6 +13,7 @@ Then run:
 terraform apply  --var-file $DATAFILE 
 ```
 If you need to re-deploy helm chart, first taint it, then re-apply:
+
 Ex:
 ```
 terraform taint helm_release.metallb
