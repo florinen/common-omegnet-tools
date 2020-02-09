@@ -1,5 +1,8 @@
 # common-omegnet-tools
-Omegnet common tools for kubernetes
+#  Prerequisite: 
+# - Base Package install must be deployed first as this will need to install necessary tools all other charts depend on.
+
+Omegnet common tools for kubernetes. This will install helm charts. 
 
 Before installing helm charts initialize terraform
 ```
@@ -9,7 +12,7 @@ Then run:
 ```
 terraform apply  --var-file $DATAFILE 
 ```
-If you need to re-deploy helm chart, first taint it the re-apply:
+If you need to re-deploy helm chart, first taint it, then re-apply:
 ```
 terraform taint helm_release.metallb
 terraform apply  --var-file $DATAFILE 
