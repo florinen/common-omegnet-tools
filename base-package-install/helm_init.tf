@@ -30,7 +30,7 @@
 ## Terraform Helm_v2 charts ##
 
 provider "helm" {
-  version         = "~> 0.10"
+  version         = "~> 0.10" # Do not change to version 1.0
   tiller_image    = "gcr.io/kubernetes-helm/tiller:${var.tiller_version}"
   service_account = "${var.tiller_service_account_name}"
   install_tiller  = "${var.install_tiller}"
@@ -39,7 +39,7 @@ provider "helm" {
 
 resource "null_resource" "helm" {
   triggers = {
-    helm-config = "${sha1(file("${path.module}/templates/helm-tiller.yaml"))}"
+    helm-config = "${sha1(file("./templates/helm-tiller.yaml"))}"
   }
 
   provisioner "local-exec" {

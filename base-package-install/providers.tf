@@ -2,10 +2,6 @@ provider "kubernetes" {
   version = "~> 1.10"
 }
 
-provider "helm" {
-  version = "~> 0.10"
-}
-
 provider "null" {
   version = "~> 2.1"
 }
