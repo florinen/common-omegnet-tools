@@ -14,12 +14,12 @@ terraform apply  --var-file $DATAFILE
 ```
 If you need to re-deploy helm chart, first taint it, then re-apply:
 ```
-terraform taint helm_release.metallb
+terraform taint helm_release.metrics_server
 terraform apply  --var-file $DATAFILE 
 ```
 To remove specific resources with terraform
 ```
-terraform destroy -target=helm_release.metallb -var-file $DATAFILE 
+terraform destroy -target=helm_release.metrics_server -var-file $DATAFILE 
 ```
 To delete all charts:
 ```
