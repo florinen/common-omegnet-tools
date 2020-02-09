@@ -1,10 +1,11 @@
 
-
 ### Backend use ###
 variable "provider_name" {}
 variable "deployment_environment" {}
 variable "deployment_name" {}
 variable "state_file_name" {}
+variable "deployment" {}
+variable "state_file" {}
 
 # S3
 variable "backend" {}
