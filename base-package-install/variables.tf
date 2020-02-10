@@ -45,7 +45,7 @@ variable "metallb_chart" {}
 variable "ingress_namespace" {}
 variable "ingress_name" {}
 variable "ingress_chart" {}
-variable "ingress_version" {}
+variable "ingress_chart_version" {}
 
 ## NFS Clien Provisioner
 variable "nfs_clinet_name" {}
