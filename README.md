@@ -3,7 +3,7 @@ Omegnet common tools for kubernetes
 
 Before installing helm charts initialize terraform
 ```
-source ./vsphere-set-env.sh c-tools.tfvars 
+source ./vsphere-set-env.sh ../data/c-tools.tfvars 
 ```
 Then run:
 ```
