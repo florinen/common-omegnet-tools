@@ -1,12 +1,12 @@
 # common-omegnet-tools
 #  Prerequisite: 
-# - Base Package install must be deployed first as this will need to install necessary tools all other charts depend on.
+# - Common Packages will deploy after base-packages.
 
 Omegnet common tools for kubernetes. This will install helm charts. 
 
 Before installing helm charts initialize terraform
 ```
-source ./vsphere-set-env.sh c-tools.tfvars 
+source ./vsphere-set-env.sh ../data/c-tools.tfvars 
 ```
 Then run:
 ```

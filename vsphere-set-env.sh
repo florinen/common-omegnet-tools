@@ -1,4 +1,7 @@
  #!/bin/bash
+RED=`tput setaf 1`
+YELLOW=`tput setaf 2`
+RESET=`tput sgr0`
 
 DIR=$(pwd)
 DATAFILE="$DIR/$1"
@@ -85,6 +88,7 @@ terraform {
 EOF
 cat "$DIR/backend.tf"
 
+echo "===>${RED} This Backend is using Prod Consul ${RESET}<==="
 #VSPHERE_CREDENTIALS="${DIR}/${CREDENTIALS}"
 #export VSPHERE_CREDENTIALS
 export DATAFILE
