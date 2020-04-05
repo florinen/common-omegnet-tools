@@ -32,9 +32,9 @@
 provider "helm" {
   version         = "~> 0.10" # Do not change to version 1.0
   tiller_image    = "gcr.io/kubernetes-helm/tiller:${var.tiller_version}"
-  service_account = "${var.tiller_service_account_name}"
-  install_tiller  = "${var.install_tiller}"
-  namespace       = "${var.tiller_namespace}"
+  service_account = var.tiller_service_account_name
+  install_tiller  = var.install_tiller
+  namespace       = var.tiller_namespace
 }
 
 resource "null_resource" "helm" {
@@ -51,18 +51,16 @@ resource "null_resource" "helm" {
 }
 resource "null_resource" "helm_delete" {
   provisioner "local-exec" {
-    when    = "destroy"
+    when    = destroy
+    interpreter = ["/bin/bash", "-c"]
     command = <<EOF
-        kubectl delete -f  templates/helm-tiller.yaml
-        kubectl delete deployments -n ${var.tiller_namespace} tiller-deploy
-        kubectl delete svc -n ${var.tiller_namespace} tiller-deploy
+        cat templates/helm-tiller.yaml | kubectl delete -f -
+        kubectl delete deployments  tiller-deploy -n ${var.tiller_namespace}
+        kubectl delete services  tiller-deploy -n  ${var.tiller_namespace}
     EOF
-  }
+    #on_failure = continue
+  } 
 }
-
-
-
-
 
 
 

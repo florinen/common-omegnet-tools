@@ -6,9 +6,9 @@ data "helm_repository" "stable" {
 }
 
 resource "helm_release" "metrics_server" {
-  depends_on   = ["null_resource.helm_destroy", "data.helm_repository.stable"]
-  name         = "${var.metrics_server_name}"
-  namespace    = "${var.metrics_server_namespace}"
+  depends_on   = [null_resource.helm_destroy, data.helm_repository.stable]
+  name         = var.metrics_server_name
+  namespace    = var.metrics_server_namespace
   force_update = true
   repository   = data.helm_repository.stable.name
   chart        = "stable/${var.metrics_server_chart}"
@@ -38,9 +38,9 @@ resource "helm_release" "metrics_server" {
 
 }
 resource "helm_release" "prometheus" {
-  depends_on   = ["null_resource.helm_destroy", "data.helm_repository.stable"]
-  name         = "${var.prometheus_name}"
-  namespace    = "${var.prometheus_namespace}"
+  depends_on   = [null_resource.helm_destroy, data.helm_repository.stable]
+  name         = var.prometheus_name
+  namespace    = var.prometheus_namespace
   force_update = true
   repository   = data.helm_repository.stable.name
   chart        = "stable/${var.prometheus_chart}"
@@ -62,7 +62,7 @@ resource "helm_release" "prometheus" {
   }
   set_string {
     name  = "alertmanager.ingress.hosts"
-    value = "{dev-alertmanager.varu.local}"
+    value = "{qa-alertmanager.varu.local}"
   }
   set {
     name  = "alertmanager.persistentVolume.enabled"
@@ -106,7 +106,7 @@ resource "helm_release" "prometheus" {
   }
   set_string {
     name  = "server.ingress.hosts"
-    value = "{dev-prometheus.varu.local}"
+    value = "{qa-prometheus.varu.local}"
   }
   set {
     name  = "server.persistentVolume.enabled"
@@ -140,7 +140,7 @@ resource "helm_release" "prometheus" {
   }
   set_string {
     name  = "pushgateway.ingress.hosts"
-    value = "{dev-pushgateway.varu.local}"
+    value = "{qa-pushgateway.varu.local}"
   }
   set {
     name  = "pushgateway.persistentVolume.enabled"
@@ -159,12 +159,12 @@ resource "helm_release" "prometheus" {
 
 resource "null_resource" "helm_destroy" {
   provisioner "local-exec" {
-    when = "destroy"
+    when = destroy
 
     command = <<EOF
       helm delete --purge ${var.metrics_server_name} ${var.prometheus_name} --tiller-namespace ${var.tiller_namespace}
-      true
     EOF
+    on_failure = continue
   }
 }
 
