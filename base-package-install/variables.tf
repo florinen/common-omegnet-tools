@@ -57,8 +57,10 @@ variable "consul_name" {}
 variable "consul_namespace" {}
 variable "consul_chart" {}
 
-
-
+# Jenkins
+variable "jenkins_name" {}
+variable "jenkins_namespace" {}
+variable "jenkins_chart" {}
 
 
 
