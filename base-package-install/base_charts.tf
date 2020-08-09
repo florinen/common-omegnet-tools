@@ -1,15 +1,15 @@
-data "helm_repository" "stable" {
-  name = "stable"
+data "helm_repository" "omegnet" {
+  name = "omegnet"
   url  = "${var.private_url}"
   #url  = "${var.public_url}"
 }
 resource "helm_release" "metallb" {
-  depends_on   = ["null_resource.helm_delete", "data.helm_repository.stable"]
+  depends_on   = ["null_resource.helm_delete", "data.helm_repository.omegnet"]
   name         = "${var.metallb_name}"
   namespace    = "${var.metallb_namespace}"
   force_update = true
-  repository   = data.helm_repository.stable.metadata[0].name
-  chart        = "stable/${var.metallb_chart}"
+  repository   = data.helm_repository.omegnet.name
+  chart        = "${var.metallb_chart}"
   wait         = false
 
   set_string {
@@ -25,12 +25,12 @@ resource "helm_release" "metallb" {
 }
 
 resource "helm_release" "ingress_controller" {
-  depends_on   = ["null_resource.helm_delete", "data.helm_repository.stable", "helm_release.metallb"]
+  depends_on   = ["null_resource.helm_delete", "data.helm_repository.omegnet", "helm_release.metallb"]
   name         = "${var.ingress_name}"
   namespace    = "${var.ingress_namespace}"
   force_update = true
-  repository   = data.helm_repository.stable.name
-  chart        = "stable/${var.ingress_chart}"
+  repository   = data.helm_repository.omegnet.name
+  chart        = "${var.ingress_chart}"
   wait         = false
   version   = "${var.ingress_chart_version}"
 
@@ -42,12 +42,12 @@ resource "helm_release" "ingress_controller" {
 }
 
 resource "helm_release" "nfs_client_provisioner" {
-  depends_on   = ["null_resource.helm_delete", "data.helm_repository.stable"]
+  depends_on   = ["null_resource.helm_delete", "data.helm_repository.omegnet"]
   name         = "${var.nfs_clinet_name}"
   namespace    = "${var.nfs_client_namespace}"
   force_update = true
-  repository   = data.helm_repository.stable.name
-  chart        = "stable/${var.nfs_client_chart}"
+  repository   = data.helm_repository.omegnet.name
+  chart        = "${var.nfs_client_chart}"
   wait         = false
   #version     = "${}"
 
@@ -61,12 +61,12 @@ resource "helm_release" "nfs_client_provisioner" {
 }
 
 resource "helm_release" "consul" {
-  depends_on   = ["null_resource.helm_delete", "data.helm_repository.stable", "helm_release.nfs_client_provisioner"]
+  depends_on   = ["null_resource.helm_delete", "data.helm_repository.omegnet", "helm_release.nfs_client_provisioner"]
   name         = "${var.consul_name}"
   namespace    = "${var.consul_namespace}"
   force_update = true
-  repository   = data.helm_repository.stable.metadata[0].name
-  chart        = "stable/${var.consul_chart}"
+  repository   = data.helm_repository.omegnet.name
+  chart        = "${var.consul_chart}"
   wait         = false
 
   set_string {

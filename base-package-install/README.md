@@ -1,12 +1,16 @@
 
 # Base package install. This must be installed first
+
 # Base package install
-## Charts in here are required as the minimum after cluster creation.
+
+## Charts in here are required as the minimum after cluster creation
+
 ## - this must be deleted after everything else was removed first (other helm releases)
 
 Omegnet common tools for kubernetes Base package instalation. This will install helm charts. 
 
 Before installing helm charts initialize terraform
+
 ```
 source ./vsphere-set-env.sh ../../data/base-tools.tfvars 
 ```
